@@ -330,6 +330,13 @@ class TelegramBotRPCRequest(metaclass=ABCMeta):
 
     def join(self, timeout=None):
         self.thread.join(timeout)
+        return self
+
+    def wait(self):
+        self.thread.join()
+        if self.error is not None:
+            return self.error
+        
         return self.result
 
 def _clean_params(**params):
